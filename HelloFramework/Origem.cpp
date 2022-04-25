@@ -26,6 +26,7 @@ const int nPoints = 100 + 1 + 1;
 const float pi = 3.14159;
 
 //Variáveis universais para alterar imagens
+//Algumas destas variáveis são para debug
 double vel_nave[2] = { 0 }, pos_nave[2] = { WIDTH / 2,HEIGHT / 2 };
 double vel_ast[12] = { 0 }, pos_ast[12] = { 0 };
 double rodar = 0, vel_rodar = 0, angulo = 0;
@@ -40,7 +41,7 @@ int main()
 		vel_ast[i] = vel_ast[i] / 600;
 		vel_ast[i+1] = rand() % 100 + 10;
 		vel_ast[i+1] = vel_ast[i+1] / 600;
-		cout << vel_ast[i] << "," << vel_ast[i + 1] << "\n";
+		//cout << vel_ast[i] << "," << vel_ast[i + 1] << "\n";
 	}
 	
 
@@ -50,7 +51,7 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Nao sei oq taconteceno", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Nao sei oq tacontesin", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	glfwSetKeyCallback(window, key_callback);
@@ -101,14 +102,16 @@ int main()
 
 	//Variáveis para determinar tamanhos e deslocamento
 	double xmin = 0.0, xmax = WIDTH, ymin = 0.0, ymax = HEIGHT;
-	double paralax=WIDTH/2, paralay=HEIGHT/2;
+	double paralax=WIDTH/2, paralay=HEIGHT/2;//Define a velocidade do paralaxe
 
 
 
 	while (!glfwWindowShouldClose(window))
 	{
 		//Calcula o angulo rotacionado pela nave
-		angulo = abs((rodar * 180) / pi);
+		angulo = abs((rodar * 180) / pi);//Transforma radianos para graus (inútil)
+
+		//Calcula rotação da nave entre -2pi e 2pi
 		if (rodar >= 2 * pi) {
 			rodar = 0;
 		}
@@ -128,7 +131,7 @@ int main()
 
 
 		//--------------------------------------------------fundo-------------------------
-		model = glm::mat4(1);
+		model = glm::mat4(1); //(Já inicializado como mat4(1)
 		model = glm::translate(model, glm::vec3(width/2, height/2, 0.0f));
 		model = glm::scale(model, glm::vec3(800, 600, 1.0));
 
@@ -146,7 +149,7 @@ int main()
 		model = glm::scale(model, glm::vec3(800, 600, 1.0));
 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glActiveTexture(GL_TEXTURE0);	
+		glActiveTexture(GL_TEXTURE0); //Redundante
 		glBindTexture(GL_TEXTURE_2D, fundo2);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -157,7 +160,8 @@ int main()
 		}
 
 		paralax += 0.1;
-		//paralay += 0.0005;
+		//paralay += 0.05;
+
 		//--------------------------------------------------fundo-------------------------
 		//--------------------------------------------------nave-------------------------
 		model = glm::mat4(1);
@@ -258,7 +262,7 @@ void detecta_colisao() {
 	
 	//Variáveis para quadrado da nave
 	//Acabei não utilizando elas, porém o código ta aí:
-	double nv[4] = { pos_nave[0] + 25, pos_nave[0] - 25, pos_nave[1] + 25, pos_nave[1] - 25 };
+	double nv[4] = { pos_nave[0] + 25, pos_nave[0] - 25, pos_nave[1] + 25, pos_nave[1] - 25 }; // Sem utilidade
 	//o 25 é referente à escala do objeto
 
 	//vetor de vértices dos asteróides
