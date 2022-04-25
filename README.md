@@ -7,3 +7,5 @@ Rodar o Visual Studio em x64.
 Para problemas de complementos consultar https://github.com/SirRoma/libraries
 
 Talvez seja necessário configurar o diretório de algumas bibliotecas quando for executar o código.
+
+Alunos: Otávio Pfeifer Forest e Leila Scariott Griebler.
